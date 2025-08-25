@@ -1,0 +1,42 @@
+name: qiraati
+description: Aplikasi belajar Iqro offline (1-6) dengan fitur lanjutkan belajar.
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  syncfusion_flutter_pdfviewer: ^26.1.41
+  shared_preferences: ^2.2.2
+  audioplayers: ^6.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    # PDF Iqro (bundle ke APK agar offline)
+    - assets/pdf/iqro_jilid1.pdf
+    - assets/pdf/iqro_jilid2.pdf
+    - assets/pdf/iqro_jilid3.pdf
+    - assets/pdf/iqro_jilid4.pdf
+    - assets/pdf/iqro_jilid5.pdf
+    - assets/pdf/iqro_jilid6.pdf
+
+    # Audio huruf hijaiyah
+    - assets/audio/
+
+    # ... tambahkan semua huruf sampai ya
+
+  fonts:
+    - family: LpmqisepMisbah
+      fonts:
+        - asset: assets/fonts/LpmqIsepMisbah.ttf

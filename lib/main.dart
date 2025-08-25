@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:iconsax/iconsax.dart';
 
-// Import screens
+// Screens
 import 'screens/iqro_screen.dart';
 import 'screens/hijaiyah_screen.dart';
-import 'screens/stats_screen.dart';
 import 'screens/quiz_screen.dart';
+import 'screens/statistics_screen.dart';
 import 'screens/reminder_screen.dart';
 
 void main() {
@@ -22,102 +20,99 @@ class QiraatiApp extends StatelessWidget {
       title: 'Qiraati',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: const Color(0xFF388E3C),
-        scaffoldBackgroundColor: Colors.white,
-        textTheme: GoogleFonts.nunitoTextTheme().copyWith(
-          titleLarge: const TextStyle(
-            fontFamily: 'LpmqisepMisbah', // Font Islamic
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Color(0xFF2E7D32),
-          ),
-          bodyMedium: const TextStyle(
-            fontSize: 16,
-            color: Colors.black87,
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF81C784),
+        primarySwatch: Colors.green,
+        scaffoldBackgroundColor: Colors.green[50],
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.green[700],
+          foregroundColor: Colors.white,
           elevation: 0,
-          centerTitle: true,
           titleTextStyle: TextStyle(
-            fontFamily: 'LpmqisepMisbah',
-            fontSize: 24,
-            color: Colors.white,
+            fontFamily: 'LpmqisepMisbah', // font Islamik
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: const Color(0xFF81C784),
-          selectedItemColor: const Color(0xFF1B5E20),
-          unselectedItemColor: Colors.white70,
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-        ),
-        cardTheme: CardTheme(
-          color: const Color(0xFFE8F5E9),
+        cardTheme: const CardTheme(
           elevation: 4,
+          margin: EdgeInsets.all(8),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+          ),
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(
+            fontSize: 16,
+            fontFamily: 'LpmqisepMisbah',
           ),
         ),
       ),
-      home: const MainPage(),
+      home: const MainNavigation(),
     );
   }
 }
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<MainNavigation> createState() => _MainNavigationState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    const IqroScreen(
+  // ✅ Lengkapkan dengan parameter yg benar
+  final List<Widget> _screens = [
+    IqroScreen(
       jilid: 1,
-      pdfAssetPath: 'assets/pdf/iqro_jilid1.pdf',
+      pdfAssetPath: 'assets/pdf/iqro1.pdf',
     ),
     const HijaiyahScreen(),
-    const StatsScreen(),
     const QuizScreen(),
-    const ReminderScreen(),
+    const StatisticsScreen(),
+    const ReminderScreen(), // sudah dibuat di screens/reminder_screen.dart
   ];
 
   void _onItemTapped(int index) {
-    setState(() => _selectedIndex = index);
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.green[700],
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Iconsax.book),
-            label: 'Iqro',
+            icon: Icon(Icons.book),
+            label: "Iqro",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Iconsax.text),
-            label: 'Hijaiyah',
+            icon: Icon(Icons.text_fields),
+            label: "Hijaiyah",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Iconsax.activity),
-            label: 'Statistik',
+            icon: Icon(Icons.quiz),
+            label: "Quiz",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Iconsax.document_text),
-            label: 'Quiz',
+            icon: Icon(Icons.bar_chart),
+            label: "Statistik",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Iconsax.clock),
-            label: 'Pengingat',
+            icon: Icon(Icons.alarm),
+            label: "Pengingat",
           ),
         ],
       ),

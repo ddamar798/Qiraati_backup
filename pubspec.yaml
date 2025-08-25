@@ -13,6 +13,8 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^26.1.41
   shared_preferences: ^2.2.2
   audioplayers: ^6.1.0
+  google_fonts: ^6.1.0
+  iconsax: ^0.0.8
 
 dev_dependencies:
   flutter_test:

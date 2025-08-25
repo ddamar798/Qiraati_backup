@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-
-// Screens
 import 'screens/iqro_screen.dart';
 import 'screens/hijaiyah_screen.dart';
 import 'screens/quiz_screen.dart';
-import 'screens/statistics_screen.dart';
-import 'screens/reminder_screen.dart';
+import 'screens/stats_screen.dart';
+import 'screens/badge_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const QiraatiApp());
 }
 
@@ -17,103 +16,60 @@ class QiraatiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Qiraati',
       debugShowCheckedModeBanner: false,
+      title: 'Qiraati',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        scaffoldBackgroundColor: Colors.green[50],
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.green[700],
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.green,
           foregroundColor: Colors.white,
           elevation: 0,
-          titleTextStyle: TextStyle(
-            fontFamily: 'LpmqisepMisbah', // font Islamik
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        cardTheme: const CardTheme(
-          elevation: 4,
-          margin: EdgeInsets.all(8),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(16)),
-          ),
-        ),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(
-            fontSize: 16,
-            fontFamily: 'LpmqisepMisbah',
-          ),
         ),
       ),
-      home: const MainNavigation(),
+      home: const _MainNav(),
     );
   }
 }
 
-class MainNavigation extends StatefulWidget {
-  const MainNavigation({super.key});
+class _MainNav extends StatefulWidget {
+  const _MainNav({super.key});
 
   @override
-  State<MainNavigation> createState() => _MainNavigationState();
+  State<_MainNav> createState() => _MainNavState();
 }
 
-class _MainNavigationState extends State<MainNavigation> {
-  int _selectedIndex = 0;
+class _MainNavState extends State<_MainNav> {
+  int _index = 0;
 
-  // ✅ Lengkapkan dengan parameter yg benar
-  final List<Widget> _screens = [
-    IqroScreen(
+  // Gunakan IndexedStack agar state tiap screen tidak reset saat pindah tab.
+  late final List<Widget> _screens = [
+    const IqroScreen(
       jilid: 1,
-      pdfAssetPath: 'assets/pdf/iqro1.pdf',
+      pdfAssetPath: 'assets/pdf/iqro_jilid1.pdf',
     ),
     const HijaiyahScreen(),
     const QuizScreen(),
-    const StatisticsScreen(),
-    const ReminderScreen(), // sudah dibuat di screens/reminder_screen.dart
+    const StatsScreen(),
+    const BadgeScreen(),
   ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _index, children: _screens),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.green[700],
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        currentIndex: _index,
+        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
+        onTap: (i) => setState(() => _index = i),
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            label: "Iqro",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.text_fields),
-            label: "Hijaiyah",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.quiz),
-            label: "Quiz",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: "Statistik",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.alarm),
-            label: "Pengingat",
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'Iqro'),
+          BottomNavigationBarItem(icon: Icon(Icons.text_fields), label: 'Hijaiyah'),
+          BottomNavigationBarItem(icon: Icon(Icons.quiz), label: 'Quiz'),
+          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: 'Statistik'),
+          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Badge'),
         ],
       ),
     );

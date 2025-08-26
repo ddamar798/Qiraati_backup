@@ -1,145 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'doa_screen.dart';
+import 'juz30_screen.dart';
+import 'asmaul_husna_screen.dart';
+import 'alarm_sholat_screen.dart';
 import 'iqro_screen.dart';
+import 'hijaiyah_screen.dart';
+import 'quiz_screen.dart';
+import 'stats_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int? lastJilid;
-  int? lastPage;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadLastProgress();
-  }
-
-  /// Ambil progres terakhir dari SharedPreferences
-  Future<void> _loadLastProgress() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      lastJilid = prefs.getInt('last_jilid');
-      lastPage = prefs.getInt('last_page');
-    });
-  }
-
-  /// Navigasi ke layar Iqro dengan data progres terakhir
-  void _lanjutkanBelajar() {
-    if (lastJilid != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => IqroScreen(
-            pdfAssetPath: 'assets/iqro/iqro_$lastJilid.pdf',
-            jilid: lastJilid!,
-          ),
-        ),
-      );
-    }
-  }
-
-  /// Navigasi ke jilid tertentu (baru belajar)
-  void _bukaJilid(int jilid) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => IqroScreen(
-          pdfAssetPath: 'assets/iqro/iqro_$jilid.pdf',
-          jilid: jilid,
-        ),
+  Widget _card(BuildContext ctx, IconData icon, String title, Widget page) {
+    return InkWell(
+      onTap: () => Navigator.push(ctx, MaterialPageRoute(builder: (_) => page)),
+      borderRadius: BorderRadius.circular(12),
+      child: Ink(
+        decoration: BoxDecoration(color: Colors.green.shade50, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.green.shade100)),
+        child: Padding(padding: const EdgeInsets.all(14), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Icon(icon, size: 36, color: Colors.green.shade700), const SizedBox(height:8), Text(title, textAlign: TextAlign.center, style: TextStyle(color: Colors.green.shade800, fontWeight: FontWeight.w600))])),
       ),
     );
+  }
+
+  Widget _link(BuildContext ctx, IconData icon, String title, Widget page) {
+    return Card(child: ListTile(leading: Icon(icon, color: Colors.green.shade700), title: Text(title), trailing: const Icon(Icons.chevron_right), onTap: ()=>Navigator.push(ctx, MaterialPageRoute(builder: (_) => page))));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Qiraati - Belajar Iqro"),
-        backgroundColor: Colors.green,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            /// 🔥 Tombol Lanjutkan Belajar
-            if (lastJilid != null && lastPage != null)
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                color: Colors.green.shade100,
-                child: ListTile(
-                  leading: const Icon(Icons.bookmark, color: Colors.green, size: 32),
-                  title: Text("Lanjutkan Iqro Jilid $lastJilid"),
-                  subtitle: Text("Halaman terakhir: $lastPage"),
-                  trailing: ElevatedButton(
-                    onPressed: _lanjutkanBelajar,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    child: const Text("Lanjutkan"),
-                  ),
-                ),
-              ),
+    final grid = [
+      (Icons.menu_book, 'Doa Sehari-hari', const DoaScreen()),
+      (Icons.menu_book_rounded, 'Surah Pendek (Juz 30)', const Juz30Screen()),
+      (Icons.star, 'Asmaul Husna', const AsmaulHusnaScreen()),
+      (Icons.alarm, 'Alarm Sholat', const AlarmSholatScreen()),
+    ];
+    final quick = [
+      (Icons.menu_book, 'Iqro', const IqroScreen(jilid: 1, pdfAssetPath: 'assets/pdf/iqro_jilid1.pdf')),
+      (Icons.text_fields, 'Huruf Hijaiyah', const HijaiyahScreen()),
+      (Icons.quiz, 'Quiz', const QuizScreen()),
+      (Icons.bar_chart, 'Statistik', const StatsScreen()),
+    ];
 
-            const SizedBox(height: 20),
-
-            /// 🔥 Daftar jilid
-            Expanded(
-              child: GridView.builder(
-                itemCount: 6, // Jilid 1–6
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 1.2,
-                ),
-                itemBuilder: (context, index) {
-                  final jilid = index + 1;
-                  return GestureDetector(
-                    onTap: () => _bukaJilid(jilid),
-                    child: Card(
-                      elevation: 4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Colors.green.shade300, Colors.green.shade700],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Iqro Jilid $jilid",
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return Scaffold(appBar: AppBar(title: const Text('Home')), body: CustomScrollView(slivers: [
+      SliverPadding(padding: const EdgeInsets.fromLTRB(12,12,12,8), sliver: SliverGrid(delegate: SliverChildBuilderDelegate((ctx,i)=>_card(ctx, grid[i].$1, grid[i].$2, grid[i].$3), childCount: grid.length), gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 12, mainAxisSpacing: 12, childAspectRatio: 1.4))),
+      SliverToBoxAdapter(child: Padding(padding: const EdgeInsets.all(12), child: Text('Akses Cepat', style: TextStyle(color: Colors.green.shade800, fontWeight: FontWeight.w700)))),
+      SliverList(delegate: SliverChildBuilderDelegate((ctx,i)=>Padding(padding: const EdgeInsets.symmetric(horizontal:8), child: _link(ctx, quick[i].$1, quick[i].$2, quick[i].$3)), childCount: quick.length)),
+      const SliverToBoxAdapter(child: SizedBox(height: 16))
+    ]));
   }
 }

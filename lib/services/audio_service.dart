@@ -2,17 +2,15 @@ import 'package:audioplayers/audioplayers.dart';
 
 class AudioService {
   AudioService._();
-  static final AudioService instance = AudioService._();
+  static final instance = AudioService._();
 
   final AudioPlayer _player = AudioPlayer();
 
-  Future<void> playAsset(String path) async {
-    // path relatif terhadap assets/audio/, contoh: "alif.mp3"
+  Future<void> playAsset(String assetPath) async {
+    // assetPath relative to assets/ (e.g. 'audio/alif.mp3' or 'audio/huruf/alif.mp3')
     await _player.stop();
-    await _player.play(AssetSource('audio/$path'));
+    await _player.play(AssetSource(assetPath));
   }
 
-  Future<void> dispose() async {
-    await _player.dispose();
-  }
+  Future<void> stop() async => _player.stop();
 }

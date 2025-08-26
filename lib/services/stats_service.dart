@@ -1,52 +1,51 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StatsService {
-  static const _kXp = 'xp';
-  static const _kTotalLetters = 'total_letters';
-  static const _kQuizzesTaken = 'quizzes_taken';
-  static const _kTotalQuizScore = 'total_quiz_score';
-  static const _kLastQuizScore = 'last_quiz_score';
+  static const xpKey = 'xp';
+  static const lettersKey = 'letters';
+  static const quizzesTakenKey = 'quizzes_taken';
+  static const totalQuizScoreKey = 'total_quiz_score';
+  static const lastQuizKey = 'last_quiz_score';
 
   static Future<int> getXp() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_kXp) ?? 0;
-    }
-
-  static Future<void> addXp(int amount) async {
-    final prefs = await SharedPreferences.getInstance();
-    final current = prefs.getInt(_kXp) ?? 0;
-    await prefs.setInt(_kXp, current + amount);
+    final sp = await SharedPreferences.getInstance();
+    return sp.getInt(xpKey) ?? 0;
   }
 
-  static Future<int> getTotalLetters() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_kTotalLetters) ?? 0;
+  static Future<void> addXp(int n) async {
+    final sp = await SharedPreferences.getInstance();
+    final now = sp.getInt(xpKey) ?? 0;
+    await sp.setInt(xpKey, now + n);
   }
 
-  static Future<void> incLetters([int by = 1]) async {
-    final prefs = await SharedPreferences.getInstance();
-    final current = prefs.getInt(_kTotalLetters) ?? 0;
-    await prefs.setInt(_kTotalLetters, current + by);
-    await addXp(2); // bonus kecil tiap dengar huruf
+  static Future<int> getLetters() async {
+    final sp = await SharedPreferences.getInstance();
+    return sp.getInt(lettersKey) ?? 0;
   }
 
-  static Future<void> recordQuiz({required int score, required int max}) async {
-    final prefs = await SharedPreferences.getInstance();
-    final taken = prefs.getInt(_kQuizzesTaken) ?? 0;
-    final totalScore = prefs.getInt(_kTotalQuizScore) ?? 0;
-    await prefs.setInt(_kQuizzesTaken, taken + 1);
-    await prefs.setInt(_kTotalQuizScore, totalScore + score);
-    await prefs.setInt(_kLastQuizScore, score);
-    // XP berdasarkan performa
+  static Future<void> incLetter([int by = 1]) async {
+    final sp = await SharedPreferences.getInstance();
+    final now = sp.getInt(lettersKey) ?? 0;
+    await sp.setInt(lettersKey, now + by);
+    await addXp(2);
+  }
+
+  static Future<void> recordQuiz(int score, int max) async {
+    final sp = await SharedPreferences.getInstance();
+    final taken = sp.getInt(quizzesTakenKey) ?? 0;
+    final total = sp.getInt(totalQuizScoreKey) ?? 0;
+    await sp.setInt(quizzesTakenKey, taken + 1);
+    await sp.setInt(totalQuizScoreKey, total + score);
+    await sp.setInt(lastQuizKey, score);
     await addXp(score * 3);
   }
 
   static Future<Map<String, int>> getQuizStats() async {
-    final prefs = await SharedPreferences.getInstance();
+    final sp = await SharedPreferences.getInstance();
     return {
-      'taken': prefs.getInt(_kQuizzesTaken) ?? 0,
-      'total': prefs.getInt(_kTotalQuizScore) ?? 0,
-      'last': prefs.getInt(_kLastQuizScore) ?? 0,
+      'taken': sp.getInt(quizzesTakenKey) ?? 0,
+      'total': sp.getInt(totalQuizScoreKey) ?? 0,
+      'last': sp.getInt(lastQuizKey) ?? 0,
     };
   }
 }

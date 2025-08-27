@@ -16,12 +16,12 @@ class HijaiyahScreen extends StatelessWidget {
     {"teks": "د", "audio": "audio/dal.mp3"},
     {"teks": "ذ", "audio": "audio/dhal.mp3"},
     {"teks": "ر", "audio": "audio/raa.mp3"},
-    {"teks": "ز", "audio": "audio/zaa.mp3"},
+    {"teks": "ز", "audio": "audio/jaa.mp3"},
     {"teks": "س", "audio": "audio/seen.mp3"},
     {"teks": "ش", "audio": "audio/sheen.mp3"},
     {"teks": "ص", "audio": "audio/saad.mp3"},
     {"teks": "ض", "audio": "audio/dhaad.mp3"},
-    {"teks": "ط", "audio": "audio/taa.mp3"},
+    {"teks": "ط", "audio": "audio/toa.mp3"},
     {"teks": "ظ", "audio": "audio/dhaa.mp3"},
     {"teks": "ع", "audio": "audio/ain.mp3"},
     {"teks": "غ", "audio": "audio/ghain.mp3"},
@@ -40,7 +40,7 @@ class HijaiyahScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final audio = AudioService.instance;
     return Scaffold(
-      appBar: AppBar(title: const Text('Huruf Hijaiyah')),
+      appBar: AppBar(title: const Text('"Denggarkan Dan Tirukan 🔊"')),
       body: GridView.builder(
         padding: const EdgeInsets.all(12),
         itemCount: _huruf.length,

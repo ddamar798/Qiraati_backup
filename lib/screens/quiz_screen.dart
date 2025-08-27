@@ -29,7 +29,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: const Text('Quiz Interaktif')), body: ListView.separated(
+    return Scaffold(appBar: AppBar(title: const Text('Ayo Latihan ✍🏻')), body: ListView.separated(
       padding: const EdgeInsets.all(12),
       itemCount: _questions.length+1,
       separatorBuilder: (_,__)=>const SizedBox(height:12),

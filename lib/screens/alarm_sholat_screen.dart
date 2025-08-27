@@ -76,7 +76,7 @@ class _AlarmSholatScreenState extends State<AlarmSholatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: const Text('Alarm Sholat')), body: ListView(padding: const EdgeInsets.all(12), children: _times.keys.map((k){
+    return Scaffold(appBar: AppBar(title: const Text('"Upayakan Sholat Tepat Waktu ✨"')), body: ListView(padding: const EdgeInsets.all(12), children: _times.keys.map((k){
       final t=_times[k]!;
       final on=_on[k]!;
       return Card(child: ListTile(leading: const Icon(Icons.alarm), title: Text('Sholat $k'), subtitle: Text(t.format(context)), trailing: Switch(value: on, onChanged: (v) async {

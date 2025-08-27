@@ -38,7 +38,7 @@ class _StatsScreenState extends State<StatsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: const Text('Statistik')), body: RefreshIndicator(
+    return Scaffold(appBar: AppBar(title: const Text('Cek Progres Belajar Kamu 📝')), body: RefreshIndicator(
       onRefresh: _load,
       child: ListView(padding: const EdgeInsets.all(12), children: [
         Card(child: ListTile(leading: const Icon(Icons.star, color: Colors.amber), title: const Text('Total XP'), trailing: Text('$_xp'))),

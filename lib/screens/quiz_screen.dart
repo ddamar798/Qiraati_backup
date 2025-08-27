@@ -9,9 +9,17 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   final List<Map<String, dynamic>> _questions = [
-    {"q": "Huruf pertama hijaiyah?", "choices": ["ب","ت","ا","ث"], "answer": 2},
-    {"q": "Huruf setelah ر adalah?", "choices": ["ز","س","د","ش"], "answer": 0},
-  ];
+  {"q": "Huruf pertama hijaiyah?", "choices": ["ب","ت","ا","ث"], "answer": 2},
+  {"q": "Huruf setelah ر adalah?", "choices": ["ز","س","د","ش"], "answer": 0},
+  {"q": "Huruf sebelum م adalah?", "choices": ["ك","ن","ل","ه"], "answer": 2},
+  {"q": "Huruf ketiga hijaiyah adalah?", "choices": ["ا","ب","ت","ث"], "answer": 1},
+  {"q": "Huruf setelah د adalah?", "choices": ["ذ","ر","ز","ح"], "answer": 0},
+  {"q": "Huruf sebelum ط adalah?", "choices": ["ز","ض","ظ","خ"], "answer": 1},
+  {"q": "Huruf terakhir hijaiyah adalah?", "choices": ["و","ي","ه","لا"], "answer": 1},
+  {"q": "Huruf setelah س adalah?", "choices": ["ص","ش","ث","ز"], "answer": 0},
+  {"q": "Huruf sebelum ف adalah?", "choices": ["ق","غ","ع","ك"], "answer": 2},
+  {"q": "Huruf setelah ظ adalah?", "choices": ["ع","ط","غ","ق"], "answer": 0}
+];
   final Map<int,int> _picked = {};
   bool _submitted = false;
   int _score = 0;

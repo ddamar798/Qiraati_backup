@@ -48,13 +48,13 @@ class _MainShellState extends State<MainShell> {
       case 0:
         return '𝐐𝐢𝐫𝐚𝐚𝐭𝐢';
       case 1:
-        return 'Iqro';
+        return '𝐈𝐐𝐑𝐎';
       case 2:
-        return 'Huruf Hijaiyah';
+        return '𝗛𝗜𝗝𝗔𝗜𝗬𝗔𝗛';
       case 3:
-        return 'Alarm';
+        return '𝗔𝗹𝗮𝗿𝗺';
       case 4:
-        return 'Statistik';
+        return '𝐒𝐭𝐚𝐭𝐢𝐬𝐭𝐢𝐤';
       default:
         return 'Qiraati';
     }

@@ -30,4 +30,6 @@ flutter:
     - assets/pdf/iqro_jilid4.pdf
     - assets/pdf/iqro_jilid5.pdf
     - assets/pdf/iqro_jilid6.pdf
-    - assets/audio/              # whole folder, eg assets/audio/alif.mp3 ...
+    - assets/audio/
+    - assets/data/
+    - assets/profile/profile.png
